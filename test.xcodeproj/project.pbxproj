@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BB05566C2ADDE8AF00DBEA38 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05566B2ADDE8AF00DBEA38 /* Location.swift */; };
 		BBAFB4982AC88D1F0001B9FC /* testApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFB4972AC88D1F0001B9FC /* testApp.swift */; };
 		BBAFB49A2AC88D1F0001B9FC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFB4992AC88D1F0001B9FC /* ContentView.swift */; };
 		BBAFB49C2AC88D220001B9FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBAFB49B2AC88D220001B9FC /* Assets.xcassets */; };
@@ -14,6 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BB05566B2ADDE8AF00DBEA38 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		BBAFB4942AC88D1F0001B9FC /* test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBAFB4972AC88D1F0001B9FC /* testApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testApp.swift; sourceTree = "<group>"; };
 		BBAFB4992AC88D1F0001B9FC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				BBAFB49E2AC88D220001B9FC /* Preview Assets.xcassets */,
+				BB05566B2ADDE8AF00DBEA38 /* Location.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -138,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBAFB49A2AC88D1F0001B9FC /* ContentView.swift in Sources */,
+				BB05566C2ADDE8AF00DBEA38 /* Location.swift in Sources */,
 				BBAFB4982AC88D1F0001B9FC /* testApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
