@@ -7,10 +7,15 @@ struct ContentView: View {
     @State private var userInputString: String = ""
     @State private var userInput2String: String = ""
     @State private var uvRecommendation: String = ""
-
+    @State private var hours: Int = 2
+    @State private var minutes: Int = 0
+    @State private var seconds: Int = 0
+    @State private var timerRunning = false
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
     var body: some View {
         GeometryReader { geo in
-            ZStack{
+            ZStack {
                 Image("wallpaper")
                     .resizable()
                     .edgesIgnoringSafeArea(.all)
@@ -21,7 +26,6 @@ struct ContentView: View {
                     .padding()
                     .offset(y: 160)
                 Text("You entered: \(userInputString)")
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .offset(y: 150)
                 TextField("Enter the longitude of your location", text: $userInput2String)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -43,7 +47,7 @@ struct ContentView: View {
                     }
                 }
                 .offset(y: 135)
-
+                
                 if let uv = uv {
                     Text("UV Index: \(uv.uv)")
                         .offset(y: 140)
@@ -55,10 +59,48 @@ struct ContentView: View {
                     Text("Loading...")
                         .offset(y: 140)
                 }
+                Text("\(String(format: "%02d:%02d:%02d", hours, minutes, seconds))")
+                    .padding()
+                    .offset(y: 150)
+                    .onReceive(timer) { _ in
+                        if timerRunning {
+                            if seconds > 0 {
+                                seconds -= 1
+                            } else {
+                                if minutes > 0 {
+                                    minutes -= 1
+                                    seconds = 59
+                                } else {
+                                    if hours > 0 {
+                                        hours -= 1
+                                        minutes = 59
+                                        seconds = 59
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .font(.system(size: 40, weight: .bold))
+                    
+                HStack(alignment: .bottom, spacing: 30) {
+                    Button("Start") {
+                        timerRunning = true
+                    } .offset(y: 150)
+                    Button("Stop") {
+                        timerRunning = false
+                    } .offset(y: 150)
+                    Button("Reset") {
+                        timerRunning = false
+                        hours = 2
+                        minutes = 0
+                        seconds = 0
+                    }.foregroundColor(.red)
+                        .offset(y: 150)
+                }
             }
         }
-
-        }
+    }
+    
     func checkUVIndex(_ uvIndex: Int) {
         if uvIndex <= 0 {
             uvRecommendation = "UV is low: Sunscreen is not necessary"
