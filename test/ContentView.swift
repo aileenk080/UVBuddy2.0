@@ -13,6 +13,8 @@ struct ContentView: View {
     @State private var timerRunning = false
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @AppStorage("shouldShowOnboarding")var shouldShowOnboarding: Bool=true
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
     
     var body: some View {
         GeometryReader { geo in
