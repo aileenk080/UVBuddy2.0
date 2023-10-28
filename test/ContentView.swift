@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var seconds: Int = 0
     @State private var timerRunning = false
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @AppStorage("shouldShowOnboarding")var shouldShowOnboarding: Bool=true
     
     var body: some View {
         GeometryReader { geo in
@@ -116,8 +117,85 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+
+struct OnboardingView: View {
+@Binding var shouldShowOnboarding: Bool
+
+var body: some View {
+    TabView {
+        PageView(
+            title: "UVBuddy", message: "UVBuddy helps you easily track your sunscreen usage.", imageName: "cloud.sun.rain.fill",showsDismissButton: false,
+            shouldShowOnboarding: $shouldShowOnboarding
+
+        )
+        PageView(
+            title: "Your UV Index", message: "UVBuddy uses your location to automatically track the UV Index, suggesting a timer and SPF Level!", imageName: "sun.max.trianglebadge.exclamationmark",showsDismissButton: false,
+            shouldShowOnboarding: $shouldShowOnboarding
+
+        )
+        PageView(
+            title: "Location", message: "Please enable your location or manually enter your longitude and latitude.", imageName: "location",showsDismissButton: false,
+            shouldShowOnboarding: $shouldShowOnboarding
+
+        )
+        PageView(
+            title: "Notifications", message: "Please enable notifications to be notified when your reapplication time is approaching.", imageName: "bell", showsDismissButton: true,
+                shouldShowOnboarding: $shouldShowOnboarding
+            
+        )
+        }
+    .tabViewStyle(PageTabViewStyle())
+    }
+}
+struct PageView: View {
+    let title: String
+    let message: String
+    let imageName: String
+    let showsDismissButton: Bool
+    @Binding var shouldShowOnboarding: Bool
+    @State private var isPulsating = false
+
+
+    var body: some View {
+        VStack {
+            Image (systemName: imageName)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width:150, height:150)
+                .padding ()
+                .scaleEffect(isPulsating ? 1.2 : 1.0)
+                .onAppear {
+                    withAnimation(Animation.easeInOut(duration: 1).repeatForever()) {
+                        self.isPulsating.toggle()
+                    }
+                }
+            Text (title)
+                .font (.system(size: 32))
+                .padding()
+            Text (message)
+                .multilineTextAlignment(.center)
+                .font (.system(size: 24))
+                .foregroundColor (Color (.secondaryLabel))
+                .padding ()
+            
+            if showsDismissButton {
+                Button(action: {
+                    shouldShowOnboarding.toggle()
+                },label: {
+                    Text ("Get Started" )
+                        .bold ()
+                        .foregroundColor (Color.white)
+                        .frame (width: 200, height: 50)
+                        .background(Color.green)
+                        .cornerRadius (6)
+                })
+            }
+        }
+    }
+    
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            ContentView()
+        }
     }
 }
