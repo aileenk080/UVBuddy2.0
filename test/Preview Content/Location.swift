@@ -9,6 +9,8 @@ import Foundation
 import CoreLocation
 
 class Location: ObservableObject {
+    @Published var latitude: CLLocationDegrees?
+    @Published var longitude: CLLocationDegrees?
 
     func getCurrentWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees, completion: @escaping (Result<UVData, Error>) -> Void) {
         guard let url = URL(string: "https://api.openuv.io/api/v1/uv?lat=\(latitude)&lng=\(longitude)") else {
