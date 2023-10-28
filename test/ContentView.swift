@@ -50,19 +50,43 @@ struct ContentView: View {
                 .offset(y: 135)
                 
                 if let uv = uv {
-                    Text("UV Index: \(uv.uv)")
+                    Text("UV Index")
                         .offset(y: 140)
-                    Text("Max UV Index: \(uv.uv_max)")
+                        .font(
+                            .system(size: 35)
+                                .weight(.heavy)
+                        )
+                    Text("\(uv.uv)")
+                        .offset(y:140)
+                        .font(
+                            .system(size: 25)
+                                .weight(.heavy)
+                        )
+                    Text("Max UV Index:")
                         .offset(y: 140)
+                        .font(
+                            .system(size: 35)
+                                .weight(.heavy)
+                        )
+                    Text("\(uv.uv_max)")
+                        .offset(y:140)
+                        .font(
+                            .system(size: 25)
+                                .weight(.heavy)
+                        )
                     Text(uvRecommendation)
                         .offset(y: 140)
+                        .font(
+                            .system(size:35)
+                            .weight(.heavy)
+                        )
                 } else {
                     Text("Loading...")
                         .offset(y: 140)
                 }
                 Text("\(String(format: "%02d:%02d:%02d", hours, minutes, seconds))")
                     .padding()
-                    .offset(y: 150)
+                    .offset(y: 130)
                     .onReceive(timer) { _ in
                         if timerRunning {
                             if seconds > 0 {
@@ -86,17 +110,17 @@ struct ContentView: View {
                 HStack(alignment: .bottom, spacing: 30) {
                     Button("Start") {
                         timerRunning = true
-                    } .offset(y: 150)
+                    } .offset(y: 130)
                     Button("Stop") {
                         timerRunning = false
-                    } .offset(y: 150)
+                    } .offset(y: 130)
                     Button("Reset") {
                         timerRunning = false
                         hours = 2
                         minutes = 0
                         seconds = 0
                     }.foregroundColor(.red)
-                        .offset(y: 150)
+                        .offset(y: 130)
                 }
             }
         }
