@@ -1,5 +1,6 @@
 import SwiftUI
 import CoreLocation
+import UserNotifications
 
 struct ContentView: View {
     @StateObject var loc = Location()
@@ -11,10 +12,9 @@ struct ContentView: View {
     @State private var minutes: Int = 0
     @State private var seconds: Int = 0
     @State private var timerRunning = false
-    @AppStorage("shouldShowOnboarding")var shouldShowOnboarding: Bool=true
+    @AppStorage("shouldShowOnboarding") var shouldShowOnboarding: Bool = true
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    
-    
+
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -28,6 +28,7 @@ struct ContentView: View {
                     .padding()
                     .offset(y: 160)
                 Text("You entered: \(userInputString)")
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .offset(y: 150)
                 TextField("Enter the longitude of your location", text: $userInput2String)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -51,40 +52,26 @@ struct ContentView: View {
                 .offset(y: 135)
                 
                 if let uv = uv {
-                    Text("UV Index")
+                    Text("UV Index: \(uv.uv)")
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .foregroundColor(Color.black)
                         .offset(y: 140)
-                        .font(
-                            .system(size: 35)
-                                .weight(.heavy)
-                        )
-                    Text("\(uv.uv)")
-                        .offset(y:140)
-                        .font(
-                            .system(size: 25)
-                                .weight(.heavy)
-                        )
-                    Text("Max UV Index:")
+                    Text("Max UV Index: \(uv.uv_max)")
+                        .font(.title3)
+                        .fontWeight(.medium)
                         .offset(y: 140)
-                        .font(
-                            .system(size: 35)
-                                .weight(.heavy)
-                        )
-                    Text("\(uv.uv_max)")
-                        .offset(y:140)
-                        .font(
-                            .system(size: 25)
-                                .weight(.heavy)
-                        )
                     Text(uvRecommendation)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color.red)
+                        .multilineTextAlignment(.center)
                         .offset(y: 140)
-                        .font(
-                            .system(size:35)
-                            .weight(.heavy)
-                        )
                 } else {
                     Text("Loading...")
                         .offset(y: 140)
                 }
+
                 Text("\(String(format: "%02d:%02d:%02d", hours, minutes, seconds))")
                     .padding()
                     .offset(y: 130)
@@ -107,7 +94,7 @@ struct ContentView: View {
                         }
                     }
                     .font(.system(size: 40, weight: .bold))
-                    
+                
                 HStack(alignment: .bottom, spacing: 30) {
                     Button("Start") {
                         timerRunning = true
@@ -125,10 +112,13 @@ struct ContentView: View {
                 }
             }
         }
+        .fullScreenCover(isPresented: $shouldShowOnboarding) {
+            OnboardingView(shouldShowOnboarding: $shouldShowOnboarding)
+        }
     }
-    
+
     func checkUVIndex(_ uvIndex: Int) {
-        if uvIndex <= 0 {
+        if uvIndex <= 0 && uvIndex <= 3 {
             uvRecommendation = "UV is low: Sunscreen is not necessary"
         } else if uvIndex >= 3 && uvIndex <= 5 {
             uvRecommendation = "UV is moderate: SPF 15+ Sunscreen necessary"
@@ -137,7 +127,7 @@ struct ContentView: View {
         } else if uvIndex >= 8 && uvIndex <= 10 {
             uvRecommendation = "UV is very high: SPF 30+ Sunscreen necessary (Apply generously)"
         } else {
-            uvRecommendation = "UV is extreme: SPF 50+ Sunscreen necessary (LIMIT DIRECT SUN-SKIN CONTACT <10 MINUTES)"
+            uvRecommendation = "UV is extreme: SPF 50+ Sunscreen necessary. Limit direct sun to skin contact to less than 10 Minutes."
         }
     }
 }
@@ -149,12 +139,12 @@ struct OnboardingView: View {
 var body: some View {
     TabView {
         PageView(
-            title: "UVBuddy", message: "UVBuddy helps you easily track your sunscreen usage.", imageName: "cloud.sun.rain.fill",showsDismissButton: false,
+            title: "UVBuddy", message: "UVBuddy helps you easily track your sunscreen usage.", imageName: "uvbud",showsDismissButton: false,
             shouldShowOnboarding: $shouldShowOnboarding
 
         )
         PageView(
-            title: "Your UV Index", message: "UVBuddy uses your location to automatically track the UV Index, suggesting a timer and SPF Level!", imageName: "sun.max.trianglebadge.exclamationmark",showsDismissButton: false,
+            title: "Your UV Index", message: "UVBuddy uses your location to automatically track the UV Index, suggesting a timer and SPF Level!", imageName: "sunscreen",showsDismissButton: false,
             shouldShowOnboarding: $shouldShowOnboarding
 
         )
@@ -164,7 +154,7 @@ var body: some View {
 
         )
         PageView(
-            title: "Notifications", message: "Please enable notifications to be notified when your reapplication time is approaching.", imageName: "bell", showsDismissButton: true,
+            title: "Notifications", message: "Please enable notifications to be notified when your reapplication time is approaching.", imageName: "notification", showsDismissButton: true,
                 shouldShowOnboarding: $shouldShowOnboarding
             
         )
@@ -180,44 +170,58 @@ struct PageView: View {
     @Binding var shouldShowOnboarding: Bool
     @State private var isPulsating = false
 
-
     var body: some View {
         VStack {
-            Image (systemName: imageName)
+            Image(imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width:150, height:150)
-                .padding ()
+                .frame(width: 150, height: 150)
+                .padding()
                 .scaleEffect(isPulsating ? 1.2 : 1.0)
                 .onAppear {
                     withAnimation(Animation.easeInOut(duration: 1).repeatForever()) {
                         self.isPulsating.toggle()
                     }
                 }
-            Text (title)
-                .font (.system(size: 32))
+            Text(title)
+                .font(.system(size: 32))
                 .padding()
-            Text (message)
+            Text(message)
                 .multilineTextAlignment(.center)
-                .font (.system(size: 24))
-                .foregroundColor (Color (.secondaryLabel))
-                .padding ()
-            
+                .font(.system(size: 24))
+                .foregroundColor(Color(.secondaryLabel))
+                .padding()
+
             if showsDismissButton {
                 Button(action: {
-                    shouldShowOnboarding.toggle()
-                },label: {
-                    Text ("Get Started" )
-                        .bold ()
-                        .foregroundColor (Color.white)
-                        .frame (width: 200, height: 50)
+                    requestNotificationAuthorization()
+                }, label: {
+                    Text("Enable Notifications")
+                        .bold()
+                        .foregroundColor(Color.white)
+                        .frame(width: 200, height: 50)
                         .background(Color.green)
-                        .cornerRadius (6)
+                        .cornerRadius(6)
                 })
             }
         }
     }
-    
+
+    func requestNotificationAuthorization() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            if granted {
+                // The user granted permission
+                shouldShowOnboarding.toggle()
+            } else if let error = error {
+                // Handle error
+                print("Error requesting notification authorization: \(error.localizedDescription)")
+            } else {
+                // The user denied permission or the permission dialog was dismissed
+                print("User denied notification permission")
+            }
+        }
+    }
+
     struct ContentView_Previews: PreviewProvider {
         static var previews: some View {
             ContentView()
