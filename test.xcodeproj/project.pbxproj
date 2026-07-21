@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		BB05566C2ADDE8AF00DBEA38 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05566B2ADDE8AF00DBEA38 /* Location.swift */; };
 		BB3263022AEDA0B5007BE494 /* locationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3263012AEDA0B5007BE494 /* locationManager.swift */; };
+		BB72B280300ECCC40061746C /* SunSafety.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB72B27F300ECCBE0061746C /* SunSafety.swift */; };
+		BB72B282300EDB770061746C /* SkinTypePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB72B281300EDB730061746C /* SkinTypePhoto.swift */; };
+		BB72B286300EE3B30061746C /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB72B285300EE3B30061746C /* Secrets.plist */; };
 		BBAFB4982AC88D1F0001B9FC /* testApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFB4972AC88D1F0001B9FC /* testApp.swift */; };
 		BBAFB49A2AC88D1F0001B9FC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFB4992AC88D1F0001B9FC /* ContentView.swift */; };
 		BBAFB49C2AC88D220001B9FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBAFB49B2AC88D220001B9FC /* Assets.xcassets */; };
@@ -18,6 +21,9 @@
 /* Begin PBXFileReference section */
 		BB05566B2ADDE8AF00DBEA38 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		BB3263012AEDA0B5007BE494 /* locationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = locationManager.swift; sourceTree = "<group>"; };
+		BB72B27F300ECCBE0061746C /* SunSafety.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunSafety.swift; sourceTree = "<group>"; };
+		BB72B281300EDB730061746C /* SkinTypePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinTypePhoto.swift; sourceTree = "<group>"; };
+		BB72B285300EE3B30061746C /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		BBAFB4942AC88D1F0001B9FC /* test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBAFB4972AC88D1F0001B9FC /* testApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testApp.swift; sourceTree = "<group>"; };
 		BBAFB4992AC88D1F0001B9FC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -55,9 +61,12 @@
 		BBAFB4962AC88D1F0001B9FC /* test */ = {
 			isa = PBXGroup;
 			children = (
+				BB72B285300EE3B30061746C /* Secrets.plist */,
 				BBAFB4972AC88D1F0001B9FC /* testApp.swift */,
 				BBAFB4992AC88D1F0001B9FC /* ContentView.swift */,
 				BBAFB49B2AC88D220001B9FC /* Assets.xcassets */,
+				BB72B27F300ECCBE0061746C /* SunSafety.swift */,
+				BB72B281300EDB730061746C /* SkinTypePhoto.swift */,
 				BBAFB49D2AC88D220001B9FC /* Preview Content */,
 			);
 			path = test;
@@ -132,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBAFB49F2AC88D220001B9FC /* Preview Assets.xcassets in Resources */,
+				BB72B286300EE3B30061746C /* Secrets.plist in Resources */,
 				BBAFB49C2AC88D220001B9FC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -144,9 +154,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB3263022AEDA0B5007BE494 /* locationManager.swift in Sources */,
+				BB72B280300ECCC40061746C /* SunSafety.swift in Sources */,
 				BBAFB49A2AC88D1F0001B9FC /* ContentView.swift in Sources */,
 				BB05566C2ADDE8AF00DBEA38 /* Location.swift in Sources */,
 				BBAFB4982AC88D1F0001B9FC /* testApp.swift in Sources */,
+				BB72B282300EDB770061746C /* SkinTypePhoto.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +290,8 @@
 				DEVELOPMENT_TEAM = 8KBG974Z33;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "UVBuddy needs your location to check the local UV Index.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "UVBuddy uses your location to show the current UV index and recommend sunscreen accordingly.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -307,6 +321,8 @@
 				DEVELOPMENT_TEAM = 8KBG974Z33;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "UVBuddy needs your location to check the local UV Index.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "UVBuddy uses your location to show the current UV index and recommend sunscreen accordingly.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
